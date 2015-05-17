@@ -1,4 +1,5 @@
 <?php
+require_once "Config.php";
 
 class GmapsRequest {
     const BASE_API_URL = 'https://maps.googleapis.com/maps/api/directions/';
@@ -45,12 +46,21 @@ class GmapsRequest {
         $this->output_type = self::OUTPUT_TYPE_XML;
     }
 
+    /**
+     * Assumes that validation has been done on all fields
+     * @return string the url for this google directions api request
+     */
     private function getUrl() {
-        return 'https://www.google.com';
+        $url = self::BASE_API_URL
+            . $this->output_type . '?' 
+            . 'origin=Brooklyn&'
+            . 'destination=Manhattan&'
+            . 'key=' . $this->getApiKey();
+        return $url;
     }
 
     private function getApiKey() {
-        return 'hello';
+        return Config::getApiKey();
     }
 
     private function isValidRequest() {
